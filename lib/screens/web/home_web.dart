@@ -23,17 +23,95 @@ class _HomeWebState extends State<HomeWeb> {
   int selectedPage = 0;
   bool sidebarVisible = true;
 
+  Map<String, dynamic>? _draftToEdit; // <-- add this
+
+  Widget _buildMainContent() {
+    switch (selectedPage) {
+      case 0:
+        return NewsFeed(activities: activities);
+      case 1:
+        return RecentsWidget(
+          onEditDraft: (draft) {
+            setState(() {
+              _draftToEdit = draft;
+              selectedPage = 2; // switch to Create page
+            });
+          },
+        );
+      case 2:
+        return CreateAnnouncementPage(
+          draft: _draftToEdit,
+          onCancel: () => setState(() {
+            selectedPage = 1; // go back to Recents
+            _draftToEdit = null;
+          }),
+        );
+      case 3:
+        return CalendarPage(
+          activities: activities,
+          techRequests: techSupportRequests,
+        );
+      case 4:
+        return ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: techSupportRequests.length,
+          itemBuilder: (context, index) {
+            final req = techSupportRequests[index];
+            return TechSupportRequestCard(
+              activityTitle: req['activityTitle'],
+              venue: req['venue'],
+              date: req['date'],
+              requestedBy: req['requestedBy'],
+              light: true,
+            );
+          },
+        );
+      default:
+        return const Center(child: Text("Page not implemented"));
+    }
+  }
+
   /// DATA
   final List<Map<String, dynamic>> activities = [
-    {"title": "Flag Ceremony", "venue": "Camp Vicente Lim", "date": DateTime(2026, 3, 2, 8, 0), "uniform": "Class B"},
-    {"title": "Cybersecurity Workshop", "venue": "RITO Office", "date": DateTime(2026, 3, 3, 13, 0), "uniform": "Business Casual"},
-    {"title": "Team Meeting", "venue": "Conference Room", "date": DateTime(2026, 3, 4, 9, 0), "uniform": "Class B"},
-    {"title": "Extra Event", "venue": "Lobby", "date": DateTime.now(), "uniform": "Class B"},
+    {
+      "title": "Flag Ceremony",
+      "venue": "Camp Vicente Lim",
+      "date": DateTime(2026, 3, 2, 8, 0),
+      "uniform": "Class B",
+    },
+    {
+      "title": "Cybersecurity Workshop",
+      "venue": "RITO Office",
+      "date": DateTime(2026, 3, 3, 13, 0),
+      "uniform": "Business Casual",
+    },
+    {
+      "title": "Team Meeting",
+      "venue": "Conference Room",
+      "date": DateTime(2026, 3, 4, 9, 0),
+      "uniform": "Class B",
+    },
+    {
+      "title": "Extra Event",
+      "venue": "Lobby",
+      "date": DateTime.now(),
+      "uniform": "Class B",
+    },
   ];
 
   final List<Map<String, dynamic>> techSupportRequests = [
-    {'activityTitle': 'Annual Meeting', 'venue': 'Conference Room', 'date': DateTime(2026, 3, 15), 'requestedBy': 'John Nash Fama'},
-    {'activityTitle': 'IT Training', 'venue': 'Camp Vicente Lim', 'date': DateTime(2026, 3, 20), 'requestedBy': 'Jane Doe'},
+    {
+      'activityTitle': 'Annual Meeting',
+      'venue': 'Conference Room',
+      'date': DateTime(2026, 3, 15),
+      'requestedBy': 'John Nash Fama',
+    },
+    {
+      'activityTitle': 'IT Training',
+      'venue': 'Camp Vicente Lim',
+      'date': DateTime(2026, 3, 20),
+      'requestedBy': 'Jane Doe',
+    },
   ];
 
   @override
@@ -59,42 +137,25 @@ class _HomeWebState extends State<HomeWeb> {
     super.dispose();
   }
 
-  Widget _buildMainContent() {
-    switch (selectedPage) {
-      case 0: return NewsFeed(activities: activities);
-      case 1: return const RecentsWidget();
-      case 2: return const CreateAnnouncementPage();
-      case 3: return CalendarPage(activities: activities, techRequests: techSupportRequests);
-      case 4: 
-        return ListView.builder(
-          padding: const EdgeInsets.all(8),
-          itemCount: techSupportRequests.length,
-          itemBuilder: (context, index) {
-            final req = techSupportRequests[index];
-            return TechSupportRequestCard(
-              activityTitle: req['activityTitle'],
-              venue: req['venue'],
-              date: req['date'],
-              requestedBy: req['requestedBy'],
-              light: true,
-            );
-          },
-        );
-      default: return const Center(child: Text("Page not implemented"));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
           if (sidebarVisible)
-            Sidebar(onMenuTap: (index) => setState(() => selectedPage = index)),
+            Sidebar(
+              onMenuTap: (index) => setState(() {
+                selectedPage = index;
+                _draftToEdit = null; // clear when user navigates away
+              }),
+            ),
           Expanded(
             child: Column(
               children: [
-                TopBar(onMenuPressed: () => setState(() => sidebarVisible = !sidebarVisible)),
+                TopBar(
+                  onMenuPressed: () =>
+                      setState(() => sidebarVisible = !sidebarVisible),
+                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(30),

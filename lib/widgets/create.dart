@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../../widgets/widgets_collection.dart';
 
 class CreateAnnouncementPage extends StatefulWidget {
-  const CreateAnnouncementPage({super.key});
+  final Map<String, dynamic>? draft;
+  final VoidCallback? onCancel;
+
+  const CreateAnnouncementPage({super.key, this.draft, this.onCancel});
 
   @override
   State<CreateAnnouncementPage> createState() => _CreateAnnouncementPageState();
@@ -15,15 +18,26 @@ class _CreateAnnouncementPageState extends State<CreateAnnouncementPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _fileController = TextEditingController();
   final TextEditingController _venueOtherController = TextEditingController();
-  final TextEditingController _personnelOtherController = TextEditingController();
+  final TextEditingController _personnelOtherController =
+      TextEditingController();
   final TextEditingController _zoomOtherController = TextEditingController();
   final TextEditingController _uniformOtherController = TextEditingController();
 
   // Dropdown options
-  final List<String> _venues = ['Camp Vicente Lim', 'RITO Office', 'Conference Room', 'Other'];
+  final List<String> _venues = [
+    'Camp Vicente Lim',
+    'RITO Office',
+    'Conference Room',
+    'Other',
+  ];
   final List<String> _personnels = ['IT Dept', 'HR', 'Admin', 'Other'];
   final List<String> _zoomPlatforms = ['Zoom', 'Teams', 'Google Meet', 'Other'];
-  final List<String> _uniforms = ['Class A', 'Class B', 'Business Casual', 'Other'];
+  final List<String> _uniforms = [
+    'Class A',
+    'Class B',
+    'Business Casual',
+    'Other',
+  ];
 
   // Selected dropdown values
   String? _selectedVenue;
@@ -53,9 +67,20 @@ class _CreateAnnouncementPageState extends State<CreateAnnouncementPage> {
 
   void _postAnnouncement() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Announcement Posted!")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Announcement Posted!")));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.draft != null) {
+      _titleController.text = widget.draft!['title'] ?? '';
+      _selectedVenue = widget.draft!['venue'];
+      _selectedUniform = widget.draft!['uniform'];
+      // prefill others as needed
     }
   }
 
@@ -68,14 +93,19 @@ class _CreateAnnouncementPageState extends State<CreateAnnouncementPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "ANNOUNCEMENT CREATION",
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            Text(
+              widget.draft != null
+                  ? "EDIT ANNOUNCEMENT"
+                  : "ANNOUNCEMENT CREATION",
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 30),
 
             // Activity Title
-            LabeledTextField(label: "Activity Title", controller: _titleController),
+            LabeledTextField(
+              label: "Activity Title",
+              controller: _titleController,
+            ),
             const SizedBox(height: 20),
 
             // Venue Dropdown
@@ -105,7 +135,9 @@ class _CreateAnnouncementPageState extends State<CreateAnnouncementPage> {
             const SizedBox(height: 20),
 
             // Date & Time Pickers
-            DateRangePickerField(onSelected: (range) => _selectedDateRange = range),
+            DateRangePickerField(
+              onSelected: (range) => _selectedDateRange = range,
+            ),
             const SizedBox(height: 12),
             TimeRangePickerField(onSelected: (range) => _timeRange = range),
             const SizedBox(height: 20),
@@ -157,16 +189,43 @@ class _CreateAnnouncementPageState extends State<CreateAnnouncementPage> {
             const SizedBox(height: 30),
 
             // Post Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _postAnnouncement,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0F2744),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (widget.draft != null)
+                  OutlinedButton(
+                    onPressed: () => widget.onCancel?.call(),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFF0F2744),
+                      side: const BorderSide(color: Color(0xFF0F2744)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: const Text("CANCEL"),
+                  ),
+                if (widget.draft != null) const SizedBox(width: 12),
+                ElevatedButton(
+                  onPressed: _postAnnouncement,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF0F2744),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                  child: Text(
+                    widget.draft != null ? "SAVE CHANGES" : "POST ACTIVITY",
+                  ),
                 ),
-                child: const Text("POST ACTIVITY", style: TextStyle(fontSize: 18)),
-              ),
+              ],
             ),
           ],
         ),

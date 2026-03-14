@@ -21,10 +21,10 @@ class Sidebar extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                "ACTION",
+                "TEAM-PRO4A",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -40,7 +40,11 @@ class Sidebar extends StatelessWidget {
               title: "Activities",
               children: [
                 _menuItem(Icons.assignment, "Recent", () => onMenuTap(1)),
-                _menuItem(Icons.add, "Create", () => onMenuTap(2)), // Create page
+                _menuItem(
+                  Icons.add,
+                  "Create",
+                  () => onMenuTap(2),
+                ), // Create page
               ],
             ),
 

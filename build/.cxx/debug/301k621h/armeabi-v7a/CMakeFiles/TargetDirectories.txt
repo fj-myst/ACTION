@@ -1,2 +1,0 @@
-C:/Users/This PC/PNP/DearTeamPro4A/build/.cxx/debug/301k621h/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/This PC/PNP/DearTeamPro4A/build/.cxx/debug/301k621h/armeabi-v7a/CMakeFiles/rebuild_cache.dir

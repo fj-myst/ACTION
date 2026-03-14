@@ -1,2 +1,0 @@
-C:/Users/This PC/PNP_OJT-project/deartm_app/build/.cxx/debug/1i5h6245/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/This PC/PNP_OJT-project/deartm_app/build/.cxx/debug/1i5h6245/armeabi-v7a/CMakeFiles/rebuild_cache.dir

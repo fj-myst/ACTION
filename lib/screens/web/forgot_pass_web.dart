@@ -35,7 +35,7 @@ class ForgotPasswordWeb extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        "ACTION",
+                        "TEAM-PRO4A                                                ",
                         style: TextStyle(
                           fontSize: 50,
                           fontWeight: FontWeight.bold,

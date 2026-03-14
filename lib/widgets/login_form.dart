@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/forgot_pass_page.dart';
+import '../pages/forgot_pass_page.dart';
 import '../screens/home_page.dart';
 
 class LoginForm extends StatelessWidget {

@@ -35,7 +35,7 @@ class LoginWeb extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        "ACTION",
+                        "TEAM-PRO4A",
                         style: TextStyle(
                           fontSize: 50,
                           fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class LoginWeb extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        "Activity, Conference & Task Information Operations Network",
+                        "<insert TEAM acronym>",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black54,

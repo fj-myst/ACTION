@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
           ? SingleChildScrollView(
               child: Column(
                 children: [
-                  // IMAGE + ACTION overlay for mobile
+                  // IMAGE + Team overlay for mobile
                   Stack(
                     children: [
                       Container(
@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [
                             Text(
-                              "ACTION",
+                              "TEAM-PRO4A",
                               style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,

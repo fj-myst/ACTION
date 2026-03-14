@@ -18,8 +18,7 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color cardColor = const Color(0xFF5F9EA0); // default color
-    if (light) cardColor = const Color(0xFFAED0D6); // light variant
+    final cardColor = light ? const Color(0xFFAED0D6) : const Color(0xFF5F9EA0);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -32,15 +31,13 @@ class NewsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            child: Text(title.isNotEmpty ? title : "No title",
+                style: const TextStyle(fontWeight: FontWeight.bold)),
           ),
           const SizedBox(height: 10),
-          Text("VENUE: $venue"),
-          Text("DATE AND TIME: $datetime"),
-          Text("UNIFORM: $uniform"),
+          Text("VENUE: ${venue.isNotEmpty ? venue : "No venue"}"),
+          Text("DATE AND TIME: ${datetime.isNotEmpty ? datetime : "No date"}"),
+          Text("UNIFORM: ${uniform.isNotEmpty ? uniform : "No uniform"}"),
         ],
       ),
     );

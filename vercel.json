@@ -1,4 +1,3 @@
 {
   "outputDirectory": "build/web",
-  "buildCommand": "echo 'no build needed'"
 }
